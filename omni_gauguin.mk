@@ -15,6 +15,11 @@ $(call inherit-product, vendor/omni/config/common.mk)
 # Inherit from gauguin device
 $(call inherit-product, device/xiaomi/gauguin/device.mk)
 
+# Encryption
+PRODUCT_PACKAGES += \
+    qcom_decrypt \
+    qcom_decrypt_fbe
+
 PRODUCT_DEVICE := gauguin
 PRODUCT_NAME := omni_gauguin
 PRODUCT_BRAND := Redmi
