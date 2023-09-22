@@ -20,10 +20,3 @@ PRODUCT_NAME := omni_gauguin
 PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := Gauguin
 PRODUCT_MANUFACTURER := xiaomi
-
-PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="gauguinin-user 12 RKQ1.200826.002 V14.0.3.0.SJSINXM release-keys"
-
-BUILD_FINGERPRINT := Redmi/gauguinin/gauguin:12/RKQ1.200826.002/V14.0.3.0.SJSINXM:user/release-keys
