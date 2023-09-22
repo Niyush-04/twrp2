@@ -6,9 +6,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/omni_gauguin.mk
+    $(LOCAL_DIR)/twrp_gauguin.mk
 
 COMMON_LUNCH_CHOICES := \
-    omni_gauguin-user \
-    omni_gauguin-userdebug \
-    omni_gauguin-eng
+    twrp_gauguin-user \
+    twrp_gauguin-userdebug \
+    twrp_gauguin-eng
