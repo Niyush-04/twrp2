@@ -12,14 +12,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
+# Configure base.mk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 
-# Inherit from our custom product configuration
+# Configure core_64_bit_only.mk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
+
+# Configure twrp
 $(call inherit-product, vendor/twrp/config/common.mk)
 
+# Inherit from device.mk configuration
 $(call inherit-product, device/xiaomi/gauguin/device.mk)
 
+# Release name
+PRODUCT_RELEASE_NAME := gauguin
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := gauguin

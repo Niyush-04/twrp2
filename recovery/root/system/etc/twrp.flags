@@ -1,47 +1,38 @@
-# mount point		fstype	device					device2				flags
+# Android fstab file.
+# The filesystem that contains the filesystem checker binary (typically /system) cannot
+# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
-/system_root		ext4	/dev/block/mapper/system					flags=backup=1;removable;display="System";flashimg=1
-/system_ext			ext4	/dev/block/mapper/system_ext				flags=backup=1;removable;display="System_ext";flashimg=1
-/product			ext4	/dev/block/mapper/product					flags=backup=1;removable;display="Product";flashimg=1
-/vendor				ext4	/dev/block/mapper/vendor					flags=backup=1;removable;display="Vendor";flashimg=1
-/metadata			ext4	/dev/block/by-name/metadata					flags=display="Metadata";wrappedkey
+# mount point          fstype  device                                        device2              flags
 
-/storage			f2fs	/data/media/0								flags=backup=1;display="Storage";usermrf;fsflags="bind";removable
+/metadata              ext4    /dev/block/bootdevice/by-name/metadata                             flags=display="Metadata";backup=1;wrappedkey
+/data                  f2fs    /dev/block/bootdevice/by-name/userdata                             flags=fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,metadata_encryption=aes-256-xts:wrappedkey_v0,keydirectory=/metadata/vold/metadata_encryption
+/cust                  ext4    /dev/block/bootdevice/by-name/cust                                 flags=display="Cust";backup=1;flashimg=1
 
-/external_sd		vfat	/dev/block/mmcblk0p1 /dev/block/mmcblk0		flags=fsflags=utf8;display="MicroSD";storage;wipeingui;removable
-/usb-otg			vfat	/dev/block/sdg1      /dev/block/sdg			flags=fsflags=utf8;display="Usb-Otg";storage;wipeingui;removable
+# Boot
+/boot                  emmc    /dev/block/bootdevice/by-name/boot                                 flags=backup=1;flashimg=1;
+/dtbo                  emmc    /dev/block/bootdevice/by-name/dtbo                                 flags=backup=1;display="Dtbo";flashimg=1
+/exaid                 emmc    /dev/block/bootdevice/by-name/exaid                                flags=display="exaid";backup=1;flashimg=1
+/vbmeta                emmc    /dev/block/bootdevice/by-name/vbmeta                               flags=display="vbmeta";backup=1;flashimg=1
+/vbmeta_system         emmc    /dev/block/bootdevice/by-name/vbmeta_system                        flags=display="vbmeta_system";backup=1;flashimg=1
+/logo                  emmc    /dev/block/bootdevice/by-name/logo                                 flags=display="logo";backup=1;flashimg=1
+/misc                  emmc    /dev/block/bootdevice/by-name/misc                                 flags=display="misc";backup=1;flashimg=1
 
-/boot				emmc	/dev/block/bootdevice/by-name/boot			flags=backup=1;display="Boot";flashimg=1
-/recovery			emmc	/dev/block/bootdevice/by-name/recovery		flags=backup=1;display="Recovery";flashimg=1
-/misc				emmc	/dev/block/bootdevice/by-name/misc			flags=backup=1;display="Misc";flashimg=1
-/dtbo				emmc	/dev/block/bootdevice/by-name/dtbo			flags=backup=1;display="Dtbo";flashimg=1
+# Persistent Firmware & Properties
+/persist               ext4    /dev/block/bootdevice/by-name/persist                              flags=display="Persist"
+/persist_image         emmc    /dev/block/bootdevice/by-name/persist                              flags=display="Persist";flashimg=1
 
-/modem				emmc	/dev/block/bootdevice/by-name/modem			flags=backup=1;;display="Modem";flashimg=1
+# Firmware partitions
+/bluetooth             vfat    /dev/block/bootdevice/by-name/bluetooth                            flags=display="bluetooth";fsflags="ro,shortname=lower,uid=1002,gid=3002,dmask=227,fmask=337,context=u:object_r:bt_firmware_file:s0 wait"
+/bluetooth_image       emmc    /dev/block/bootdevice/by-name/bluetooth                            flags=display="bluetooth";backup=1;flashimg=1
+/dsp                   vfat    /dev/block/bootdevice/by-name/dsp                                  flags=display="dsp";slotselect
+/dsp_image             emmc    /dev/block/bootdevice/by-name/dsp                                  flags=display="dsp";backup=1;flashimg=1
+/modem                 vfat    /dev/block/bootdevice/by-name/modem                                flags=display="Modem";fsflags="ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0 wait"
+/modem_img             emmc    /dev/block/bootdevice/by-name/modem                                flags=backup=1;display="Modem";flashimg=1
+/efs1                  emmc    /dev/block/bootdevice/by-name/modemst1                             flags=backup=1;display=EFS
+/efs2                  emmc    /dev/block/bootdevice/by-name/modemst2                             flags=backup=1;subpartitionof=/efs1
+/efsc                  emmc    /dev/block/bootdevice/by-name/fsc                                  flags=backup=1;subpartitionof=/efs1
+/efsg                  emmc    /dev/block/bootdevice/by-name/fsg                                  flags=backup=1;subpartitionof=/efs1
 
-/persist			ext4	/dev/block/bootdevice/by-name/persist		flags=backup=1
-/persist_image		emmc	/dev/block/bootdevice/by-name/persist		flags=backup=0;flashimg=1
-/cust				ext4	/dev/block/bootdevice/by-name/cust			flags=backup=1
-/cust_image			emmc	/dev/block/bootdevice/by-name/cust			flags=backup=0;flashimg=1
-/vbmeta				emmc	/dev/block/bootdevice/by-name/vbmeta		flags=backup=1;display="Vbmeta";flashimg=1
-/vbmeta_system		emmc	/dev/block/bootdevice/by-name/vbmeta_system	flags=backup=1;display="Vbmeta_Sys";flashimg=1
-/frp				emmc	/dev/block/bootdevice/by-name/frp			flags=backup=1;display="Frp";flashimg=1
-
-/abl				emmc	/dev/block/bootdevice/by-name/abl			flags=backup=1;display="Firmware"
-/aop				emmc	/dev/block/bootdevice/by-name/aop			flags=backup=1;subpartitionof=/abl
-/cmnlib				emmc	/dev/block/bootdevice/by-name/cmnlib		flags=backup=1;subpartitionof=/abl
-/cmnlib64			emmc	/dev/block/bootdevice/by-name/cmnlib64		flags=backup=1;subpartitionof=/abl
-/hyp				emmc	/dev/block/bootdevice/by-name/hyp			flags=backup=1;subpartitionof=/abl
-/imagefv			emmc	/dev/block/bootdevice/by-name/imagefv		flags=backup=1;subpartitionof=/abl
-/keymaster			emmc	/dev/block/bootdevice/by-name/keymaster		flags=backup=1;subpartitionof=/abl
-/qupfw				emmc	/dev/block/bootdevice/by-name/qupfw			flags=backup=1;subpartitionof=/abl
-/storsec			emmc	/dev/block/bootdevice/by-name/storsec		flags=backup=1;subpartitionof=/abl
-/tz					emmc	/dev/block/bootdevice/by-name/tz			flags=backup=1;subpartitionof=/abl
-/xbl				emmc	/dev/block/bootdevice/by-name/xbl			flags=backup=1;subpartitionof=/abl
-/xbl_config			emmc	/dev/block/bootdevice/by-name/xbl_config	flags=backup=1;subpartitionof=/abl
-
-/efs1				emmc	/dev/block/bootdevice/by-name/modemst1		flags=backup=1;display="Efs"
-/efs2				emmc	/dev/block/bootdevice/by-name/modemst2		flags=backup=1;subpartitionof=/efs1
-/efsc				emmc	/dev/block/bootdevice/by-name/fsc			flags=backup=1;subpartitionof=/efs1
-/efsg				emmc	/dev/block/bootdevice/by-name/fsg			flags=backup=1;subpartitionof=/efs1
-
-
+# Removable storage
+/usb_otg               auto    /dev/block/sdg1                              /dev/block/sdg          flags=fsflags=utf8;display="USB-OTG";storage;wipeingui;removable
+/external_sd		   vfat	   /dev/block/mmcblk0p1 /dev/block/mmcblk0		flags=fsflags=utf8;display="MicroSD";storage;wipeingui;removable
