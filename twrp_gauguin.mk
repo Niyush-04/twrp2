@@ -13,17 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PRODUCT_RELEASE_NAME := gauguin
-DEVICE_PATH := device/xiaomi/gauguin
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
 
-CUSTOM_VENDOR := $(lastword $(subst /, ,$(firstword $(subst _, ,$(firstword $(MAKEFILE_LIST))))))
-BOARD_VENDOR := $(or $(word 2,$(subst /, ,$(firstword $(MAKEFILE_LIST)))),$(value 2))
+# Inherit from our custom product configuration
+$(call inherit-product, vendor/twrp/config/common.mk)
 
-$(call inherit-product, $(DEVICE_PATH)/device.mk)
-$(call inherit-product, vendor/$(CUSTOM_VENDOR)/config/common.mk)
+$(call inherit-product, device/xiaomi/gauguin/device.mk)
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.build.security_patch=2127-12-31
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := gauguin
