@@ -1,5 +1,5 @@
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter gauguin,$(TARGET_DEVICE)),)
-include $(call all-makefiles-under,$(LOCAL_PATH))
+ifeq ($(TARGET_DEVICE), gauguin)
+include $(call all-subdir-makefiles,$(LOCAL_PATH))
 endif
